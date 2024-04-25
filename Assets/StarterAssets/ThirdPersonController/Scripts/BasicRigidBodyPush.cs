@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Unity.Netcode;
 
-public class BasicRigidBodyPush : MonoBehaviour
+public class BasicRigidBodyPush : NetworkBehaviour
 {
 	public LayerMask pushLayers;
 	public bool canPush;
@@ -32,4 +33,12 @@ public class BasicRigidBodyPush : MonoBehaviour
 		// Apply the push and take strength into account
 		body.AddForce(pushDir * strength, ForceMode.Impulse);
 	}
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsServer)
+		{
+			this.enabled = false;
+		}
+    }
 }
